@@ -1,7 +1,9 @@
 import axios from "axios";
 
+const API_URL = import.meta.env?.VITE_API_URL || process.env?.REACT_APP_API_URL || "http://localhost:3000/api/";
+
 const instance = axios.create({
-  baseURL: "http://localhost:3000/api/",
+  baseURL: API_URL,
   withCredentials: true,
   timeout: 30000,
 });
