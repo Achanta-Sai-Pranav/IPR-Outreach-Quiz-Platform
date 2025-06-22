@@ -1,5 +1,6 @@
 import axios from "axios";
 
+// Updated to support both Vite and CRA environment variables
 const API_URL = import.meta.env?.VITE_API_URL || process.env?.REACT_APP_API_URL || "http://localhost:3000/api/";
 
 const instance = axios.create({
