@@ -1,0 +1,18 @@
+{
+  "dashboard": "आईपीआर क्विज़ डैशबोर्ड",
+  "profile": "प्रोफ़ाइल",
+  "pastQuizzes": "पिछली क्विज़",
+  "uploadExcel": "एक्सेल अपलोड करें",
+  "createQuiz": "क्विज़ बनाएं",
+  "manageQuiz": "क्विज़ प्रबंधित करें",
+  "analytics": "विश्लेषण",
+  "signOut": "साइन आउट",
+  "admin": "व्यवस्थापक",
+  "student": "छात्र",
+  "confirmSignOut": "क्या आप वाकई साइन आउट करना चाहते हैं?",
+  "yesSignOut": "हां, साइन आउट करें",
+  "cancel": "रद्द करें",
+  "signOutSuccess": "सफलतापूर्वक साइन आउट हो गया",
+  "signOutFailed": "साइन आउट विफल रहा",
+  "signOutError": "साइन आउट के दौरान त्रुटि"
+}

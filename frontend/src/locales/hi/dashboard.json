@@ -1,0 +1,23 @@
+{
+    "updateProfile": "प्रोफ़ाइल अपडेट करें",
+    "firstName": "पहला नाम",
+    "middleName": "मध्य नाम",
+    "lastName": "अंतिम नाम",
+    "email": "ईमेल",
+    "mobileNumber": "मोबाइल नंबर",
+    "dateOfBirth": "जन्म तिथि",
+    "schoolName": "स्कूल का नाम",
+    "standard": "कक्षा",
+    "selectStandard": "अपनी कक्षा चुनें",
+    "city": "शहर",
+    "selectCity": "अपना शहर चुनें",
+    "password": "पासवर्ड",
+    "enterNewPassword": "बदलने के लिए नया पासवर्ड दर्ज करें",
+    "updateProfileButton": "प्रोफ़ाइल अपडेट करें",
+    "pastQuizzes": "पिछली क्विज़",
+    "noPastQuizzes": "कोई पिछली क्विज़ उपलब्ध नहीं है। कृपया अभी एक क्विज़ का प्रयास करें।",
+    "quizName": "क्विज़ का नाम:",
+    "result": "परिणाम:",
+    "submitted": "जमा किया गया:",
+    "timeTaken": "लिया गया समय:"
+  }

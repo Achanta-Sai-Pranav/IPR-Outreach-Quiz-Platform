@@ -1,0 +1,23 @@
+{
+  "updateProfile": "Update Profile",
+  "firstName": "First Name",
+  "middleName": "Middle Name",
+  "lastName": "Last Name",
+  "email": "Email",
+  "mobileNumber": "Mobile Number",
+  "dateOfBirth": "Date of Birth",
+  "schoolName": "School Name",
+  "standard": "Standard",
+  "selectStandard": "Select your standard",
+  "city": "City",
+  "selectCity": "Select your city",
+  "password": "Password",
+  "enterNewPassword": "Enter new password to change",
+  "updateProfileButton": "Update Profile",
+  "pastQuizzes": "Past Quizzes",
+  "noPastQuizzes": "No past quizzes available. Please attempt a quiz now.",
+  "quizName": "Quiz Name:",
+  "result": "Result:",
+  "submitted": "Submitted:",
+  "timeTaken": "Time Taken:"
+}

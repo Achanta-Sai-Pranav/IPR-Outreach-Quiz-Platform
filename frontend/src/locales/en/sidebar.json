@@ -1,0 +1,16 @@
+{
+  "dashboard": "IPR Quiz Dashboard",
+  "profile": "Profile",
+  "pastQuizzes": "Past Quizzes",
+  "uploadExcel": "Upload Excel",
+  "createQuiz": "Create Quiz",
+  "manageQuiz": "Manage Quiz",
+  "analytics": "Analytics",
+  "signOut": "Sign Out",
+  "signOutSuccess": "Successfully signed out",
+  "admin": "Admin",
+  "student": "Student",
+  "confirmSignOut": "Are you sure you want to sign out?",
+  "yesSignOut": "Yes, Sign Out",
+  "cancel": "Cancel"
+}

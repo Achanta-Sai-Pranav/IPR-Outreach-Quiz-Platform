@@ -1,0 +1,26 @@
+{
+  "welcome": "Welcome to the IPR Quiz Platform!",
+  "ongoingQuizzes": "Ongoing Quizzes",
+  "upcomingQuizzes": "Upcoming Quizzes",
+  "pastQuizzes": "Past Quizzes",
+  "daysLeft": "{{count}} days left",
+  "startsIn": "Starts in {{count}} days",
+  "closed": "Closed",
+  "categories": "Categories:",
+  "languages": "Languages:",
+  "startQuizNow": "Start Quiz Now!",
+  "rules": "Rules",
+  "quizRules": {
+    "time": "You have 15 minutes to complete the quiz.",
+    "questions": "The number of questions equals the total marks for this quiz.",
+    "options": "Each question has 4 options.",
+    "skip": "You can skip questions if you're unsure.",
+    "results": "You can see your results after the quiz."
+  },
+  "close": "Close",
+  "start": "Start",
+  "pleaseLoginFirst": "Please Login First",
+  "loginNeeded": "You need to be logged in to start the quiz.",
+  "cancel": "Cancel",
+  "goToLogin": "Go to Login"
+}
