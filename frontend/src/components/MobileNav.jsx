@@ -182,13 +182,22 @@ const MobileNav = () => {
                   )}
                 </div>
               ) : (
-                <Link
-                  to="/sign-up"
-                  className="block text-center bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md text-base font-medium transition duration-300"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {t("signup")}
-                </Link>
+                <div className="flex gap-4">
+                  <Link
+                    to="/login"
+                    className="block text-gray-800 bg-blue-500 hover:bg-blue-600 hover:text-white text-lg font-medium transition duration-300 px-4 py-2 rounded-md"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Login
+                  </Link>
+                  <Link
+                    to="/sign-up"
+                    className="block text-gray-800 bg-orange-500 hover:bg-orange-600 hover:text-white text-lg font-medium transition duration-300 px-4 py-2 rounded-md"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Register
+                  </Link>
+                </div>
               )}
             </div>
           </div>

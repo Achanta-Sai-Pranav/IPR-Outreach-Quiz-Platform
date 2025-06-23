@@ -177,11 +177,18 @@ const Header = () => {
                 </div>
               </div>
             ) : (
-              <Link to="/sign-up">
-                <Button className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-2 rounded-md text-5xl font-medium transition duration-300">
-                  <span className="text-xl">{t("signUp")}</span>
-                </Button>
-              </Link>
+              <div className="flex gap-4">
+                <Link to="/login">
+                  <Button className="bg-blue-500 hover:bg-blue-600 text-white px-8 py-2 rounded-md text-5xl font-medium transition duration-300">
+                    <span className="text-xl">{t("login.loginButton")}</span>
+                  </Button>
+                </Link>
+                <Link to="/sign-up">
+                  <Button className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-2 rounded-md text-5xl font-medium transition duration-300">
+                    <span className="text-xl">Register</span>
+                  </Button>
+                </Link>
+              </div>
             )}
           </div>
 
