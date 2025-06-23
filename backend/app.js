@@ -13,14 +13,9 @@ connectDB();
 dotenv.config();
 app.use(
   cors({
-    origin: [
-      config.frontendUrl, 
-      "http://localhost:3000", 
-      "http://10.20.15.158:3000",
-      "https://ipr-outreach-quiz-platform.vercel.app",
-      "https://*.vercel.app",
-      "https://*.onrender.com"
-    ],
+    origin: process.env.NODE_ENV === 'production'
+      ? [config.frontendUrl]
+      : [config.frontendUrl, "http://localhost:3000"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization"],

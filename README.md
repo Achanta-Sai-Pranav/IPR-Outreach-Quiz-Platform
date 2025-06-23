@@ -85,4 +85,35 @@ full stack quiz_V1/
 Contributions are welcome! Please fork the repository and submit a pull request for review.
 
 ## License
-This project is for educational and outreach purposes at the Institute for Plasma Research, Outreach Division. 
+This project is for educational and outreach purposes at the Institute for Plasma Research, Outreach Division.
+
+## 🚀 Deploying to Render
+
+### Backend (Node.js/Express)
+1. Go to [Render.com](https://render.com/) and create a new Web Service.
+2. Connect your GitHub repo and select the `backend` folder as the root.
+3. Set the following:
+   - **Build Command:** `npm install`
+   - **Start Command:** `node app.js` or `npm start`
+   - **Environment Variables:**
+     - `PORT` (Render sets this automatically)
+     - `MONGODB_URI` (your MongoDB connection string)
+     - `JWT_SECRET`, `JWT_EXPIRES_IN` (your JWT settings)
+     - `FRONTEND_URL` (set to your frontend Render URL, e.g. `https://your-frontend.onrender.com`)
+     - Any other variables from `backend/config/config.js`
+
+### Frontend (React/Vite)
+1. Create a new **Static Site** on Render.
+2. Connect your GitHub repo and select the `frontend` folder as the root.
+3. Set the following:
+   - **Build Command:** `npm run build`
+   - **Publish Directory:** `dist`
+   - **Environment Variables:**
+     - `VITE_API_URL` (set to your backend Render URL, e.g. `https://your-backend.onrender.com/api/`)
+
+### Notes
+- Make sure CORS is set up correctly in the backend (see code).
+- After both are deployed, update the environment variables if you change URLs.
+- For local development, the defaults will still work with localhost.
+
+--- 
