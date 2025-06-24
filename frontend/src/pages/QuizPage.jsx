@@ -111,9 +111,10 @@ const QuizPage = () => {
 
   useEffect(() => {
     if (alreadyAttempted) {
+      toast.info("You have already attempted the quiz.");
       const timer = setTimeout(() => {
         navigate("/", { replace: true });
-      }, 1500);
+      }, 2000);
       return () => clearTimeout(timer);
     }
   }, [alreadyAttempted, navigate]);
@@ -221,7 +222,7 @@ const QuizPage = () => {
     return <div className="flex items-center justify-center min-h-screen text-xl">Validating quiz access...</div>;
   }
   if (alreadyAttempted) {
-    return <div className="flex items-center justify-center min-h-screen text-2xl font-bold text-red-600">You have already attempted this quiz.</div>;
+    return null;
   }
 
   return (
