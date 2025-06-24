@@ -14,7 +14,8 @@ dotenv.config();
 app.use(
   cors({
     origin: [
-      "https://ipr-outreach-quiz-platform-1.onrender.com", // deployed frontend
+      "https://ipr-outreach-quiz-platform-1.onrender.com", // deployed frontend (old)
+      "https://ipr-outreach-quiz-platform.onrender.com", // deployed frontend (new)
       "http://localhost:5173", // Vite dev
       "http://localhost:3000" // fallback for old dev
     ],
