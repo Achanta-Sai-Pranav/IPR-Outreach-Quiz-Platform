@@ -180,7 +180,7 @@ const Header = () => {
               <div className="flex gap-4">
                 <Link to="/login">
                   <Button className="bg-blue-500 hover:bg-blue-600 text-white px-8 py-2 rounded-md text-5xl font-medium transition duration-300">
-                    <span className="text-xl">{t("login.loginButton")}</span>
+                    <span className="text-xl">Login</span>
                   </Button>
                 </Link>
                 <Link to="/sign-up">

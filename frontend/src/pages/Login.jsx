@@ -134,7 +134,7 @@ const Login = () => {
               className="w-full py-3 rounded-xl bg-orange-500 text-white text-lg font-bold transition-all hover:bg-orange-600 active:scale-[.98] disabled:bg-orange-300"
               disabled={loading}
             >
-              {loading ? "Loading..." : t("login.loginButton")}
+              {loading ? "Loading..." : t("Login")}
             </button>
           </form>
           <div className="flex items-center justify-center mt-6">

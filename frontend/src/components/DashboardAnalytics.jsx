@@ -183,7 +183,7 @@ const DashboardAnalytics = () => {
               placeholder="Search quizzes..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full p-2 sm:p-3 border-2 border-blue-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300 ease-in-out"
+              className="w-full p-4 border-2 border-blue-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300 ease-in-out text-lg"
             />
           </div>
 
@@ -191,7 +191,7 @@ const DashboardAnalytics = () => {
             value={selectedQuiz || ""}
             onChange={(e) => handleQuizSelect(e.target.value)}
             disabled={loading}
-            className="w-full sm:w-auto p-2 sm:p-3 border-2 border-blue-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300 ease-in-out appearance-none bg-white flex-grow disabled:opacity-50"
+            className="w-full sm:w-auto p-4 border-2 border-blue-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300 ease-in-out appearance-none bg-white flex-grow disabled:opacity-50 text-lg"
           >
             <option value="">Select a quiz</option>
             {quizzes
@@ -206,19 +206,17 @@ const DashboardAnalytics = () => {
           </select>
           <button
             onClick={handleExportExcel}
-            disabled={loading || !selectedQuiz}
-            className="w-full sm:w-auto bg-green-500 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg hover:bg-green-600 transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex items-center bg-green-500 hover:bg-green-700 text-white font-bold py-3 px-6 rounded min-w-[180px] min-h-[48px] text-lg"
+            disabled={loading}
           >
-            <FaFileExcel className="mr-2" />
-            Export Quiz Data
+            <FaFileExcel className="mr-2" /> Export Quiz Data
           </button>
           <button
             onClick={handleExportUsers}
+            className="flex items-center bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded min-w-[180px] min-h-[48px] text-lg"
             disabled={loading}
-            className="w-full sm:w-auto bg-blue-500 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg hover:bg-blue-600 transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            <FaFileExcel className="mr-2" />
-            Export Users Data
+            <FaFileExcel className="mr-2" /> Export Users
           </button>
         </div>
 
@@ -263,52 +261,54 @@ const DashboardAnalytics = () => {
               ))}
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-4 sm:mb-6">
-              <div className="h-64 sm:h-80 p-3 sm:p-5 bg-white bg-opacity-70 backdrop-blur-lg rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out hover:bg-opacity-80 transform hover:scale-105">
-                <h3 className="text-base sm:text-lg font-semibold mb-2 text-black">
-                  Participation by Standard
-                </h3>
-                <Bar
-                  data={{
-                    labels: Object.keys(analyticsData.participationByStd),
-                    datasets: [
-                      {
-                        label: "Participants",
-                        data: Object.values(analyticsData.participationByStd),
-                        backgroundColor: "#ff7043",
-                      },
-                    ],
-                  }}
-                  options={chartOptions}
-                />
-              </div>
-              <div className="h-64 sm:h-80 p-3 sm:p-5 bg-white bg-opacity-70 backdrop-blur-lg rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out hover:bg-opacity-80 transform hover:scale-105">
-                <h3 className="text-base sm:text-lg font-semibold mb-2 text-black">
-                  Participation by City
-                </h3>
-                <Doughnut
-                  data={{
-                    labels: Object.keys(analyticsData.participationByCity),
-                    datasets: [
-                      {
-                        data: Object.values(analyticsData.participationByCity),
-                        backgroundColor: [
-                          "#ff7043",
-                          "#26a69a",
-                          "#42a5f5",
-                          "#ab47bc",
-                          "#7e57c2",
-                          "#5c6bc0",
-                          "#ef5350",
-                          "#66bb6a",
-                          "#ffa726",
-                          "#29b6f6",
-                        ],
-                      },
-                    ],
-                  }}
-                  options={chartOptions}
-                />
+            <div className="overflow-x-auto">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-4 sm:mb-6">
+                <div className="h-64 sm:h-80 p-3 sm:p-5 bg-white bg-opacity-70 backdrop-blur-lg rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out hover:bg-opacity-80 transform hover:scale-105 min-w-[320px]">
+                  <h3 className="text-base sm:text-lg font-semibold mb-2 text-black">
+                    Participation by Standard
+                  </h3>
+                  <Bar
+                    data={{
+                      labels: analyticsData ? Object.keys(analyticsData.participationByStd) : [],
+                      datasets: [
+                        {
+                          label: "Participants",
+                          data: analyticsData ? Object.values(analyticsData.participationByStd) : [],
+                          backgroundColor: "#ff7043",
+                        },
+                      ],
+                    }}
+                    options={chartOptions}
+                  />
+                </div>
+                <div className="h-64 sm:h-80 p-3 sm:p-5 bg-white bg-opacity-70 backdrop-blur-lg rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out hover:bg-opacity-80 transform hover:scale-105 min-w-[320px]">
+                  <h3 className="text-base sm:text-lg font-semibold mb-2 text-black">
+                    Participation by City
+                  </h3>
+                  <Doughnut
+                    data={{
+                      labels: analyticsData ? Object.keys(analyticsData.participationByCity) : [],
+                      datasets: [
+                        {
+                          data: analyticsData ? Object.values(analyticsData.participationByCity) : [],
+                          backgroundColor: [
+                            "#ff7043",
+                            "#26a69a",
+                            "#42a5f5",
+                            "#ab47bc",
+                            "#7e57c2",
+                            "#5c6bc0",
+                            "#ef5350",
+                            "#66bb6a",
+                            "#ffa726",
+                            "#29b6f6",
+                          ],
+                        },
+                      ],
+                    }}
+                    options={chartOptions}
+                  />
+                </div>
               </div>
             </div>
 
