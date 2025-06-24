@@ -227,25 +227,25 @@ const QuizPage = () => {
   return (
     <>
       <motion.div
+        className="fixed top-4 right-4 bg-white p-5 rounded-lg shadow-lg z-[99999]"
+        initial={{ y: -50, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.5 }}
+      >
+        <span className="text-xl font-semibold text-orange-600">
+          {t("timeLeft")}
+        </span>
+        <div className="text-2xl font-bold text-red-600">
+          {timeRemaining !== null ? getFormattedTime() : '--:--'}
+        </div>
+      </motion.div>
+
+      <motion.div
         className="min-h-screen bg-gradient-to-br from-purple-100 to-blue-200 p-4 sm:p-8 relative"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
       >
-        <motion.div
-          className="fixed top-4 right-4 bg-white p-5 rounded-lg shadow-lg"
-          initial={{ y: -50, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.5 }}
-        >
-          <span className="text-xl font-semibold text-orange-600">
-            {t("timeLeft")}
-          </span>
-          <div className="text-2xl font-bold text-red-600">
-            {timeRemaining !== null ? getFormattedTime() : '--:--'}
-          </div>
-        </motion.div>
-
         <h1 className="text-4xl font-bold text-center text-purple-700 mb-12 animate-pulse">
           {t("quizTime")}
         </h1>
