@@ -13,9 +13,11 @@ connectDB();
 dotenv.config();
 app.use(
   cors({
-    origin: process.env.NODE_ENV === 'production'
-      ? [config.frontendUrl]
-      : [config.frontendUrl, "http://localhost:3000"],
+    origin: [
+      "https://ipr-outreach-quiz-platform-1.onrender.com", // deployed frontend
+      "http://localhost:5173", // Vite dev
+      "http://localhost:3000" // fallback for old dev
+    ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization"],
