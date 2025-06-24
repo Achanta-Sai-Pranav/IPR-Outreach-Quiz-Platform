@@ -177,6 +177,11 @@ const QuizPage = () => {
   }, []);
 
   const submitQuiz = async () => {
+    if (alreadyAttempted) {
+      toast.info("You have already attempted the quiz.");
+      navigate("/", { replace: true });
+      return;
+    }
     if (isSubmitting || submittedRef.current) return;
     setIsSubmitting(true);
     submittedRef.current = true;
