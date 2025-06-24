@@ -29,6 +29,7 @@ const Results = () => {
   const [isEmailSent, setIsEmailSent] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
+  const [certificateUrl, setCertificateUrl] = useState(null);
   const user = useSelector((state) => state.user);
   const userEmail = user?.currentUser?.user?.email;
 
@@ -74,6 +75,34 @@ const Results = () => {
     frame();
   }, [results, questions, navigate]);
 
+  useEffect(() => {
+    // Automatically fetch and display certificate PDF after results are available
+    const fetchCertificate = async () => {
+      if (!results?.userName || !results?.quizName || typeof results?.scorePercentage !== 'number') return;
+      try {
+        const response = await axios.post("quiz/download-certificate", {
+          studentName: results.userName,
+          quizName: results.quizName,
+          percentage: results.scorePercentage,
+        }, {
+          responseType: 'blob',
+          withCredentials: true,
+        });
+        const blob = new Blob([response.data], { type: 'application/pdf' });
+        const url = window.URL.createObjectURL(blob);
+        setCertificateUrl(url);
+      } catch (error) {
+        // Optionally show a toast or fallback
+      }
+    };
+    fetchCertificate();
+    // Cleanup: revoke object URL when component unmounts or results change
+    return () => {
+      if (certificateUrl) window.URL.revokeObjectURL(certificateUrl);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [results?.userName, results?.quizName, results?.scorePercentage]);
+
   window.history.pushState(null, null, window.location.pathname);
   window.addEventListener("popstate", () => {
     window.history.pushState(null, null, window.location.pathname);
@@ -112,30 +141,26 @@ const Results = () => {
         responseType: 'blob',
         withCredentials: true,
       });
-      
-      // Create a blob URL and trigger download
       const blob = new Blob([response.data], { type: 'application/pdf' });
       const url = window.URL.createObjectURL(blob);
+      setCertificateUrl(url);
       const fileName = `${results.quizName}_${results.userName.replace(/\s+/g, '_')}_${Date.now()}.pdf`;
       const link = document.createElement('a');
       link.href = url;
       link.download = fileName;
       document.body.appendChild(link);
-      // Try to trigger download
       try {
         link.click();
         toast.success("Certificate downloaded successfully!");
       } catch (e) {
-        // Fallback for iOS/Safari: open in new tab
         window.open(url, '_blank');
         toast.info("Opened certificate in a new tab. Use your browser's share or download option.");
       }
       document.body.removeChild(link);
-      window.URL.revokeObjectURL(url);
     } catch (error) {
-      // Fallback for iOS/Safari: open in new tab if download fails
       if (error && error.name === 'SecurityError') {
         const url = window.URL.createObjectURL(new Blob([response.data], { type: 'application/pdf' }));
+        setCertificateUrl(url);
         window.open(url, '_blank');
         toast.info("Opened certificate in a new tab. Use your browser's share or download option.");
       } else {
@@ -239,84 +264,59 @@ const Results = () => {
           </motion.p>
         )}
 
-        <div className="flex flex-wrap gap-4 mt-2">
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className={`${
-              isEmailSent
-                ? "bg-green-500 hover:bg-green-700"
-                : "bg-blue-500 hover:bg-blue-700"
-            } text-white font-bold py-3 px-6 rounded min-w-[180px] min-h-[48px] text-lg`}
-            onClick={sendCertificateEmail}
-            disabled={isEmailSent || isLoading}
-          >
-            {isLoading ? (
-              <span className="flex items-center">
-                <svg
-                  className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                  ></circle>
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  ></path>
-                </svg>
-                {t("sendCertificate")}
-              </span>
-            ) : isEmailSent ? (
-              t("certificateSent")
-            ) : (
-              t("sendCertificate")
-            )}
-          </motion.button>
-
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded min-w-[180px] min-h-[48px] text-lg"
-            onClick={downloadCertificate}
-            disabled={isDownloading}
-          >
-            {isDownloading ? (
-              <span className="flex items-center">
-                <svg
-                  className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                  ></circle>
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  ></path>
-                </svg>
-                {t("downloadCertificate")}
-              </span>
-            ) : (
-              t("downloadCertificate")
-            )}
-          </motion.button>
+        <div className="flex flex-wrap gap-4 mt-2 w-full justify-between items-start">
+          <div className="flex flex-col gap-4">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className={`${isEmailSent ? "bg-green-500 hover:bg-green-700" : "bg-blue-500 hover:bg-blue-700"} text-white font-bold py-3 px-6 rounded min-w-[180px] min-h-[48px] text-lg`}
+              onClick={sendCertificateEmail}
+              disabled={isEmailSent || isLoading}
+            >
+              {isLoading ? (
+                <span className="flex items-center">
+                  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
+                  </svg>
+                  {t("sendCertificate")}
+                </span>
+              ) : isEmailSent ? (
+                t("certificateSent")
+              ) : (
+                t("sendCertificate")
+              )}
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded min-w-[180px] min-h-[48px] text-lg"
+              onClick={downloadCertificate}
+              disabled={isDownloading}
+            >
+              {isDownloading ? (
+                <span className="flex items-center">
+                  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
+                  </svg>
+                  {t("downloadCertificate")}
+                </span>
+              ) : (
+                t("downloadCertificate")
+              )}
+            </motion.button>
+          </div>
+          {certificateUrl && (
+            <div className="flex-1 flex justify-end">
+              <iframe
+                src={certificateUrl}
+                title="Certificate Preview"
+                className="w-[350px] h-[500px] border-2 border-gray-300 rounded-lg shadow-lg"
+                style={{ minWidth: 300, maxWidth: 400 }}
+              />
+            </div>
+          )}
         </div>
 
         {isEmailSent && (
