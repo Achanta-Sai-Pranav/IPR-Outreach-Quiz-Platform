@@ -87,6 +87,8 @@ const Results = () => {
         quizName: results.quizName,
         percentage: results.scorePercentage,
         email: userEmail,
+      }, {
+        withCredentials: true,
       });
       if (response.data.message) {
         setIsEmailSent(true);
@@ -107,23 +109,38 @@ const Results = () => {
         quizName: results.quizName,
         percentage: results.scorePercentage,
       }, {
-        responseType: 'blob'
+        responseType: 'blob',
+        withCredentials: true,
       });
       
       // Create a blob URL and trigger download
       const blob = new Blob([response.data], { type: 'application/pdf' });
       const url = window.URL.createObjectURL(blob);
+      const fileName = `${results.quizName}_${results.userName.replace(/\s+/g, '_')}_${Date.now()}.pdf`;
       const link = document.createElement('a');
       link.href = url;
-      link.download = `${results.quizName}_${results.userName.replace(/\s+/g, '_')}_${Date.now()}.pdf`;
+      link.download = fileName;
       document.body.appendChild(link);
-      link.click();
+      // Try to trigger download
+      try {
+        link.click();
+        toast.success("Certificate downloaded successfully!");
+      } catch (e) {
+        // Fallback for iOS/Safari: open in new tab
+        window.open(url, '_blank');
+        toast.info("Opened certificate in a new tab. Use your browser's share or download option.");
+      }
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
-      
-      toast.success("Certificate downloaded successfully!");
     } catch (error) {
-      toast.error("Failed to download certificate. Please try again.");
+      // Fallback for iOS/Safari: open in new tab if download fails
+      if (error && error.name === 'SecurityError') {
+        const url = window.URL.createObjectURL(new Blob([response.data], { type: 'application/pdf' }));
+        window.open(url, '_blank');
+        toast.info("Opened certificate in a new tab. Use your browser's share or download option.");
+      } else {
+        toast.error("Failed to download certificate. Please try again.");
+      }
     } finally {
       setIsDownloading(false);
     }
@@ -230,7 +247,7 @@ const Results = () => {
               isEmailSent
                 ? "bg-green-500 hover:bg-green-700"
                 : "bg-blue-500 hover:bg-blue-700"
-            } text-white font-bold py-2 px-4 rounded`}
+            } text-white font-bold py-3 px-6 rounded min-w-[180px] min-h-[48px] text-lg`}
             onClick={sendCertificateEmail}
             disabled={isEmailSent || isLoading}
           >
@@ -268,7 +285,7 @@ const Results = () => {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded"
+            className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded min-w-[180px] min-h-[48px] text-lg"
             onClick={downloadCertificate}
             disabled={isDownloading}
           >

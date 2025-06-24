@@ -150,7 +150,8 @@ exports.studentLogin = async (req, res) => {
     res
       .cookie("Bearer", token, {
         httpOnly: true,
-        sameSite: "strict",
+        sameSite: "None",
+        secure: true,
       })
       .status(200)
       .json({
