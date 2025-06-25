@@ -112,10 +112,7 @@ const QuizPage = () => {
   useEffect(() => {
     if (alreadyAttempted) {
       toast.info("You have already attempted the quiz.");
-      const timer = setTimeout(() => {
-        navigate("/", { replace: true });
-      }, 2000);
-      return () => clearTimeout(timer);
+      navigate("/", { replace: true });
     }
   }, [alreadyAttempted, navigate]);
 
@@ -232,6 +229,18 @@ const QuizPage = () => {
 
   return (
     <>
+      {/* Back Button */}
+      <button
+        className="fixed top-4 left-4 z-[99999] bg-white border border-gray-300 rounded-full p-3 shadow hover:bg-gray-100 transition"
+        onClick={() => navigate("/", { replace: true })}
+        aria-label="Back to Home"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+        </svg>
+      </button>
+      {/* End Back Button */}
+
       <motion.div
         className="fixed top-4 right-4 bg-white p-5 rounded-lg shadow-lg z-[99999]"
         initial={{ y: -50, opacity: 0 }}
