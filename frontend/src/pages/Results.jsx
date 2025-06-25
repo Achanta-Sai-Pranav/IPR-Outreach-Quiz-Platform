@@ -29,7 +29,6 @@ const Results = () => {
   const [isEmailSent, setIsEmailSent] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
-  const [certificateUrl, setCertificateUrl] = useState(null);
   const user = useSelector((state) => state.user);
   const userEmail = user?.currentUser?.user?.email;
 
@@ -75,34 +74,6 @@ const Results = () => {
     frame();
   }, [results, questions, navigate]);
 
-  useEffect(() => {
-    // Automatically fetch and display certificate PDF after results are available
-    const fetchCertificate = async () => {
-      if (!results?.userName || !results?.quizName || typeof results?.scorePercentage !== 'number') return;
-      try {
-        const response = await axios.post("quiz/download-certificate", {
-          studentName: results.userName,
-          quizName: results.quizName,
-          percentage: results.scorePercentage,
-        }, {
-          responseType: 'blob',
-          withCredentials: true,
-        });
-        const blob = new Blob([response.data], { type: 'application/pdf' });
-        const url = window.URL.createObjectURL(blob);
-        setCertificateUrl(url);
-      } catch (error) {
-        // Optionally show a toast or fallback
-      }
-    };
-    fetchCertificate();
-    // Cleanup: revoke object URL when component unmounts or results change
-    return () => {
-      if (certificateUrl) window.URL.revokeObjectURL(certificateUrl);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [results?.userName, results?.quizName, results?.scorePercentage]);
-
   window.history.pushState(null, null, window.location.pathname);
   window.addEventListener("popstate", () => {
     window.history.pushState(null, null, window.location.pathname);
@@ -143,7 +114,6 @@ const Results = () => {
       });
       const blob = new Blob([response.data], { type: 'application/pdf' });
       const url = window.URL.createObjectURL(blob);
-      setCertificateUrl(url);
       const fileName = `${results.quizName}_${results.userName.replace(/\s+/g, '_')}_${Date.now()}.pdf`;
       const link = document.createElement('a');
       link.href = url;
@@ -157,15 +127,9 @@ const Results = () => {
         toast.info("Opened certificate in a new tab. Use your browser's share or download option.");
       }
       document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
     } catch (error) {
-      if (error && error.name === 'SecurityError') {
-        const url = window.URL.createObjectURL(new Blob([response.data], { type: 'application/pdf' }));
-        setCertificateUrl(url);
-        window.open(url, '_blank');
-        toast.info("Opened certificate in a new tab. Use your browser's share or download option.");
-      } else {
-        toast.error("Failed to download certificate. Please try again.");
-      }
+      toast.error("Failed to download certificate. Please try again.");
     } finally {
       setIsDownloading(false);
     }
@@ -307,16 +271,6 @@ const Results = () => {
               )}
             </motion.button>
           </div>
-          {certificateUrl && (
-            <div className="flex-1 flex justify-end">
-              <iframe
-                src={certificateUrl}
-                title="Certificate Preview"
-                className="w-[350px] h-[500px] border-2 border-gray-300 rounded-lg shadow-lg"
-                style={{ minWidth: 300, maxWidth: 400 }}
-              />
-            </div>
-          )}
         </div>
 
         {isEmailSent && (
