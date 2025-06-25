@@ -4,6 +4,7 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const config = require("./config/config.js");
 const connectDB = require("./config/db.config.js");
+const path = require("path");
 
 const app = express();
 
@@ -28,6 +29,14 @@ app.use(express.json({ limit: "20kb" }));
 app.use(express.urlencoded({ extended: true, limit: "20kb" }));
 app.use(express.static("public"));
 app.use(cookieParser());
+
+// Serve static files from the frontend build directory
+app.use(express.static(path.join(__dirname, "../frontend/dist")));
+
+// SPA fallback: serve index.html for any non-API route
+app.get(/^\/(?!api).*/, (req, res) => {
+  res.sendFile(path.join(__dirname, "../frontend/dist", "index.html"));
+});
 
 // Imported Routes
 const authRoutes = require("./routes/authRoute.js");
