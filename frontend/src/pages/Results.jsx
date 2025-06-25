@@ -95,7 +95,7 @@ const Results = () => {
         toast.success("Certificate sent successfully!");
       }
     } catch (error) {
-      toast.error("Failed to send certificate. Please try again.");
+      toast.error("Failed to send certificate. Please try again. If the problem persists, contact the respective organizer for certificate.");
     } finally {
       setIsLoading(false);
     }
@@ -129,7 +129,7 @@ const Results = () => {
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
     } catch (error) {
-      toast.error("Failed to download certificate. Please try again.");
+      toast.error("Failed to download certificate. Please try again. If the problem persists, contact the respective organizer for certificate.");
     } finally {
       setIsDownloading(false);
     }
