@@ -19,9 +19,9 @@ const transporter = nodemailer.createTransport({
 // Verify transporter configuration
 transporter.verify(function (error, success) {
   if (error) {
-    console.error("SMTP Configuration Error:", error);
+    console.error("❌SMTP Configuration Error:", error);
   } else {
-    console.log("SMTP Server is ready to take our messages");
+    console.log("✅SMTP Server is ready to take our messages");
   }
 });
 
